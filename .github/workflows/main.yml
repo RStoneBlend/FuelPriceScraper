@@ -1,10 +1,13 @@
 name: Retrieve secrets 
 on:
   workflow_dispatch:
+
 jobs:
-  log-secret:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Run a multi-line script
-        run: |
-          echo ${{ secrets.DROPBOXTOKEN }} # prints ***
+    - env:
+        DROPBOX_ACCESS_TOKEN: ${{ secrets.DROPBOXTOKEN }}
+    - run: echo DROPBOX_ACCESS_TOKEN
+      
