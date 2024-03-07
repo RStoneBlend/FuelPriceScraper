@@ -22,4 +22,4 @@ jobs:
     - name: Run the script
       env:
         DROPBOX_ACCESS_TOKEN: ${{ secrets.DROPBOXTOKEN }}
-      run: python path/to/your_script.py
+      run: python FuelScraper.py
