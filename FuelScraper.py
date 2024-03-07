@@ -62,10 +62,6 @@ def attempt_download(download_url):
         return e
 
 def upload_to_dropbox(folder_path, filename, data):
-
-    # Access the DROPBOX_ACCESS_TOKEN environment variable
-    dbx_token = os.environ['DROPBOX_ACCESS_TOKEN']
-
     # Initialize your Dropbox client with the token
     dbx = dropbox.Dropbox(dbx_token)
     
@@ -94,6 +90,9 @@ def download_json_files(retailer_data, main_folder_name):
 # URL of the page to scrape and base directory setup
 page_url = "https://www.gov.uk/guidance/access-fuel-price-data"
 base_directory = './json_files_by_retailer/'
+
+# Access the DROPBOX_ACCESS_TOKEN environment variable
+dbx_token = os.environ['DROPBOX_ACCESS_TOKEN']
 
 # Fetch JSON URLs and retailer names
 retailer_data = fetch_json_urls(page_url)
