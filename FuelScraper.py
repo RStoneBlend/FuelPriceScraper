@@ -92,7 +92,7 @@ page_url = "https://www.gov.uk/guidance/access-fuel-price-data"
 base_directory = './json_files_by_retailer/'
 
 # Access the DROPBOX_ACCESS_TOKEN environment variable
-dbx_token = os.environ['DROPBOX_ACCESS_TOKEN']
+dbx_token = os.environ.get("DROPBOX_ACCESS_TOKEN")
 
 # Fetch JSON URLs and retailer names
 retailer_data = fetch_json_urls(page_url)
