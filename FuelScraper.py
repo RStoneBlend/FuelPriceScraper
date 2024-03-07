@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import json
 import os
 from datetime import datetime
-
+import dropbox
 
 # List of user agents to rotate
 USER_AGENTS = [
@@ -61,22 +61,33 @@ def attempt_download(download_url):
         print(f"Failed to download {download_url}: {e}")
         return e
 
-def download_json_files(retailer_data, base_directory):
+def upload_to_dropbox(folder_path, filename, data):
+
+    # Access the DROPBOX_ACCESS_TOKEN environment variable
+    dbx_token = os.environ['DROPBOX_ACCESS_TOKEN']
+
+    # Initialize your Dropbox client with the token
+    dbx = dropbox.Dropbox(dbx_token)
+    
+    dropbox_path = f"{folder_path}/{filename}"
+    try:
+        dbx.files_upload(data.encode(), dropbox_path, mode=dropbox.files.WriteMode.overwrite)
+        print(f"Uploaded: {dropbox_path}")
+    except Exception as e:
+        print(f"Failed to upload {dropbox_path}: {e}")
+
+def download_json_files(retailer_data, main_folder_name):
     today = datetime.now().strftime("%Y-%m-%d")
-
+    
     for retailer_name, url in retailer_data:
-        retailer_dir = os.path.join(base_directory, retailer_name.replace("/", "-"))
-        os.makedirs(retailer_dir, exist_ok=True)
-
         filename = f"{retailer_name.replace('/', '-')}_{today}.json"
-        file_path = os.path.join(retailer_dir, filename)
+        folder_path = f"/{main_folder_name}/{retailer_name.replace('/', '-')}"  # Construct path with main folder and subfolder
 
         data = attempt_download(url)
 
         if not isinstance(data, Exception):
-            with open(file_path, 'w') as file:
-                json.dump(data, file)
-            print(f"Downloaded: {file_path}")
+            data_str = json.dumps(data)
+            upload_to_dropbox(folder_path, filename, data_str)
         else:
             print(f"Failed to download and process: {url}")
 
@@ -87,5 +98,8 @@ base_directory = './json_files_by_retailer/'
 # Fetch JSON URLs and retailer names
 retailer_data = fetch_json_urls(page_url)
 
-# Download JSON files, including retailer names, to retailer-specific directories
-download_json_files(retailer_data, base_directory)
+# Main folder name in Dropbox
+main_folder_name = "Fuel Data By Retailer"
+
+# Assuming retailer_data is already defined and contains your data
+download_json_files(retailer_data, main_folder_name)
