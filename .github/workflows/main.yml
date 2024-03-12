@@ -5,6 +5,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: WebScrape
 
     steps:
       - name: Set up environment variable
