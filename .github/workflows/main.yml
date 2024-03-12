@@ -10,5 +10,5 @@ jobs:
     steps:
       - name: Set up environment variable
         env:
-          DROPBOX_ACCESS_TOKEN: ${{ secrets.DROPBOXTOKEN }}
+          DROPBOX_ACCESS_TOKEN: ${{ secrets.DROP_BOX_TOKEN }}
         run: echo "DROPBOX_ACCESS_TOKEN is $DROPBOX_ACCESS_TOKEN"
