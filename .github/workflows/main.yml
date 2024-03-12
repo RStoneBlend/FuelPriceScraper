@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - env:
-        DROPBOX_ACCESS_TOKEN: ${{ secrets.DROPBOXTOKEN }}
-    - run: echo DROPBOX_ACCESS_TOKEN
-      
+      - name: Set up environment variable
+        env:
+          DROPBOX_ACCESS_TOKEN: ${{ secrets.DROPBOXTOKEN }}
+        run: echo "DROPBOX_ACCESS_TOKEN is $DROPBOX_ACCESS_TOKEN"
