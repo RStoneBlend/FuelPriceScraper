@@ -2,11 +2,12 @@ name: Run Python Script Daily
 
 on:
   schedule:
-    - cron: '50 14 * * *'  # At 08:00 UTC every day
+    - cron: '15 12 * * *'  # At 08:00 UTC every day
 
 jobs:
   run-script:
     runs-on: ubuntu-latest  # Specifies the runner environment
+    environment: WebScrape
 
     steps:
     - uses: actions/checkout@v3
@@ -21,5 +22,5 @@ jobs:
 
     - name: Run the script
       env:
-        DROPBOX_ACCESS_TOKEN: ${{ secrets.DROPBOXTOKEN }}
+        DROPBOX_ACCESS_TOKEN: ${{ secrets.DROP_BOX_TOKEN }}
       run: python FuelScraper.py
