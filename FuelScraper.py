@@ -63,7 +63,12 @@ def attempt_download(download_url):
 
 def upload_to_dropbox(folder_path, filename, data):
     # Initialize your Dropbox client with the token
-    dbx = dropbox.Dropbox(dbx_token)
+    # dbx = dropbox.Dropbox(dbx_token)
+    dbx = dropbox.Dropbox(
+        app_key=dbx_app_tk,
+        app_secret= dbx_app_sec,
+        oauth2_refresh_token = dbx_token
+        )
     
     dropbox_path = f"{folder_path}/{filename}"
     try:
@@ -93,6 +98,8 @@ base_directory = './json_files_by_retailer/'
 
 # Access the DROPBOX_ACCESS_TOKEN environment variable
 dbx_token = os.environ.get("DROPBOX_ACCESS_TOKEN")
+dbx_app_sec = os.environ.get("DROPBOX_APP_SECRET")
+dbx_app_tk = os.environ.get("DROPBOX_APP_KEY")
 
 # Fetch JSON URLs and retailer names
 retailer_data = fetch_json_urls(page_url)
