@@ -23,4 +23,6 @@ jobs:
     - name: Run the script
       env:
         DROPBOX_ACCESS_TOKEN: ${{ secrets.DROP_BOX_TOKEN }}
+        DROPBOX_APP_KEY: ${{DROPBOX_APP_KEY}}
+        DROPBOX_APP_SECRET: ${{DROPBOX_APP_SECRET}}
       run: python FuelScraper.py
